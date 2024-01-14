@@ -1,73 +1,48 @@
 function setupTables() {
-	setupTable("speciesLearnsetPrevoExclusiveTable", moves, displayLevelUpMovesRow, Object.keys(moves).length, sortLevelUpMovesRow, [
-		["Lvl", ["level"]],
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
+	for (const name of [
+		"speciesLearnsetPrevoExclusiveTable",
+		"speciesLearnsetLevelUpTable"
+	]) {
+		setupTable(name, moves, displayLevelUpMovesRow, Object.keys(moves).length, sortLevelUpMovesRow, [
+			{label: "Lvl", by: ["level"]},
+			{label: "Name", by: ["name"]},
+			{label: "Type", by: ["type"]},
+			{label: "Category", by: ["split"]},
+			{label: "Power", by: ["power"], factor: -1},
+			{label: "Acc", by: ["accuracy"], factor: -1},
+			{label: "Description"}
+		]);
+	}
 	
-	setupTable("speciesLearnsetLevelUpTable", moves, displayLevelUpMovesRow, Object.keys(moves).length, sortLevelUpMovesRow, [
-		["Lvl", ["level"]],
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
-	
-	setupTable("speciesLearnsetTMHMTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
-	
-	setupTable("speciesLearnsetTutorTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
-	
-	setupTable("speciesLearnsetEggMovesTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
-	
-	setupTable("speciesLearnsetEventTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]],
-		["Description",[]]
-	]);
-	
+	for (const name of [
+		"speciesLearnsetTMHMTable",
+		"speciesLearnsetTutorTable",
+		"speciesLearnsetEggMovesTable",
+		"speciesLearnsetEventTable"
+	]) {
+		setupTable(name, moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
+			{label: "Name", by: ["name"]},
+			{label: "Type", by: ["type"]},
+			{label: "Category", by: ["split"]},
+			{label: "Power", by: ["power"], factor: -1},
+			{label: "Acc", by: ["accuracy"], factor: -1},
+			{label: "Description"}
+		]);
+	}
+
 	setupTable("speciesTable", species, displaySpeciesRow, 50, sortSpeciesRow, [
-		["#", ["dexID"]],
-		["Sprite", []],
-		["Name", ["name"]],
-		["Type", []],
-		["Abilities", ["abilities", "primary"]],
-		["HP", ["stats", "HP"]],
-		["Atk", ["stats", "attack"]],
-		["Def", ["stats", "defense"]],
-		["SpA", ["stats", "spAttack"]],
-		["SpD", ["stats", "spDefense"]],
-		["Spe", ["stats", "speed"]],
-		["BST", ["stats", "total"]]
+		{label: "#", by: ["dexID"]},
+		{label: "Sprite"},
+		{label: "Name", by: ["name"]},
+		{label: "Type"},
+		{label: "Abilities", by: ["abilities", "primary"]},
+		{label: "HP", by: ["stats", "HP"], factor: -1},
+		{label: "Atk", by: ["stats", "attack"], factor: -1},
+		{label: "Def", by: ["stats", "defense"], factor: -1},
+		{label: "SpA", by: ["stats", "spAttack"], factor: -1},
+		{label: "SpD", by: ["stats", "spDefense"], factor: -1},
+		{label: "Spe", by: ["stats", "speed"], factor: -1},
+		{label: "BST", by: ["stats", "total"], factor: -1}
 	]);
 	
 	populateTable("speciesTable", Object.keys(species));
@@ -104,12 +79,12 @@ function setupTable(name, library, displayMethod, maxRows, sortMethod, sortOptio
 	sortControls.className = "sortControls";
 	thead.append(sortControls);
 	
-	for (const [sortLabel, sortProperties] of sortOptions) {
+	for (const sortProperties of sortOptions) {
 		let sortOption = document.createElement("th");
 		sortControls.append(sortOption);
-		sortOption.innerText = sortLabel;
+		sortOption.innerText = sortProperties.label;
 		sortOption.className = "sortLocked";
-		if (sortProperties.length === 0)
+		if (!sortProperties.by)
 			continue;
 		sortOption.className = "sortOption";
 		sortOption.onclick = function () {

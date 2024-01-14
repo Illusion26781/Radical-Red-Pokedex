@@ -60,7 +60,7 @@ function displayLevelUpMovesRow(tracker, movePair) {
 		buildWrapper("td", "moveLevelWrapper", level),
 		buildWrapper("td", "moveNameWrapper", move.name),
 		buildWrapperTypes("td", "moveType", types[move.type]),
-		buildWrapperSprite("td", "moveSplit", getSplitSrc(move.split)),
+		buildWrapperSprite("td", "moveSplit", splits[move.split].sprite),
 		buildWrapper("td", "movePowerWrapper", move.power),
 		buildWrapper("td", "moveAccuracyWrapper", move.accuracy),
 		buildWrapper("td", "moveDescriptionWrapper", move.description)
@@ -79,7 +79,7 @@ function displayMovesRow(tracker, key) {
 	currentRow.append(
 		buildWrapper("td", "moveNameWrapper", move.name),
 		buildWrapperTypes("td", "moveType", types[move.type]),
-		buildWrapperSprite("td", "moveSplit", getSplitSrc(move.split)),
+		buildWrapperSprite("td", "moveSplit", splits[move.split].sprite),
 		buildWrapper("td", "movePowerWrapper", move.power),
 		buildWrapper("td", "moveAccuracyWrapper", move.accuracy),
 		buildWrapper("td", "moveDescriptionWrapper", move.description)
@@ -393,7 +393,7 @@ function buildWrapperTypeMatchup(key, matchup) {
 	let wrapper = buildWrapper("div", "typeMatchupWrapper");
 	
 	wrapper.append(buildWrapperTypes("div", "typeMatchupLabel", types[key]));
-	wrapper.append(buildWrapper("div", "typeMatchupMultiplier x" + (matchup * 100), "*" + matchup));
+	wrapper.append(buildWrapper("div", "typeMatchupMultiplier x" + (matchup * 100), matchup + "x"));
 	
 	return wrapper;
 }
