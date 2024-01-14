@@ -15,6 +15,13 @@ function getSplitSrc(split)
 			return "move-Special.png"
 	}
 	return ""
+
+}
+function handleClick(move)
+{
+	filterMove([move.key,move.name])
+	$('#speciesModal').modal('hide');
+	
 }
 
 function displaySpeciesRow(tracker, key) {
@@ -25,7 +32,6 @@ function displaySpeciesRow(tracker, key) {
 		displaySpeciesPanel(mon);
 	};
 	tracker.body.appendChild(currentRow);
-	
 	buildBackgroundColor(currentRow, mon);
 	
 	currentRow.append(
@@ -45,6 +51,10 @@ function displayLevelUpMovesRow(tracker, movePair) {
 	let currentRow = document.createElement("tr");
 	currentRow.className = "movesRow";
 	tracker.body.appendChild(currentRow);
+
+	currentRow.onclick = () => {
+	  handleClick(move)
+	}
 	
 	currentRow.append(
 		buildWrapper("td", "moveLevelWrapper", level),
@@ -63,6 +73,9 @@ function displayMovesRow(tracker, key) {
 	currentRow.className = "movesRow";
 	tracker.body.appendChild(currentRow);
 	
+	currentRow.onclick = () => {
+		handleClick(move)
+	  }
 	currentRow.append(
 		buildWrapper("td", "moveNameWrapper", move.name),
 		buildWrapperTypes("td", "moveType", types[move.type]),
